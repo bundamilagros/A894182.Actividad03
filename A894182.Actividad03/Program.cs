@@ -16,6 +16,7 @@ namespace A894182.Actividad03
             string path = @"c:\Diario.txt";
             if (!File.Exists(path))
             {
+
                 int rtdo = MostrarMenu();
 
                 switch (rtdo)
@@ -69,15 +70,7 @@ namespace A894182.Actividad03
                         rtdo = Validar(Console.ReadLine());
                         break;
                 }
-
-
-
-                // Si no esta el archivo, lo creo
-                using (StreamWriter sw = File.CreateText(path))
-                {
-                    sw.WriteLine("Hola mundo");
-
-                }
+   
             }
         }
                 
