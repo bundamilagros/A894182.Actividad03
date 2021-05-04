@@ -47,12 +47,12 @@ namespace A894182.Actividad03
                         {
                             sw.WriteLine(a.Numero + " | " + a.Fecha + " |  CODIGO |  DEBE  |  HABER \n");
                             foreach (Cuenta c in a.CuentasDebe)
-                            {
-                                sw.WriteLine("    |          | " + c.Code + " | " + c.Monto + " | ");
+                            {                              
+                                sw.WriteLine("   |                        | " + c.Code + " | " + c.Monto + " | ");
                             }
                             foreach (Cuenta c in a.CuentasHaber)
                             {
-                                sw.WriteLine("    |          | " + c.Code + " |       | " + c.Monto);
+                                sw.WriteLine("   |                        | " + c.Code + " |   | " + c.Monto);
                             }
                         }
                         
@@ -60,10 +60,12 @@ namespace A894182.Actividad03
                         break;
                     case 2:
                         Console.WriteLine("El libro diario contiene los siguientes asientos: \n");
-                        using (StreamReader readtext = new StreamReader("Diario.txt"))
+                        using (StreamReader leer = new StreamReader("Diario.txt"))
                         {
-                            string lectura = readtext.ReadLine();
-                            Console.WriteLine(lectura);
+                            string lectura;
+                            while ((lectura = leer.ReadLine()) != null) { 
+                            Console.WriteLine(lectura);                          
+                            }
                         }
                         rtdo = MostrarMenu();
                         break;
