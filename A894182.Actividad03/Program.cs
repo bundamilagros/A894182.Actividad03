@@ -21,14 +21,9 @@ namespace A894182.Actividad03
                 switch (rtdo)
                 {
                     case 1:
-
-                        Asiento a = new Asiento();
-                        Console.WriteLine("Ingrese la fecha en formato dd-MM-yyyy :\n");
-                        a.Fecha = ValidarFecha(Console.ReadLine());
-                        a = nuevoAsiento(l, a);
-                        a.Numero = l.NroAsientos;
-                        l.NroAsientos++;
-
+                       
+                        Asiento a = nuevoAsiento(l, new Asiento());
+                       
                         while (a.Debe != a.Haber)
                         {
                             Console.WriteLine("\n--------------------------------\n");
@@ -39,20 +34,26 @@ namespace A894182.Actividad03
                             a = nuevoAsiento(l, a);
                         }
                         if (a.Debe == a.Haber)
-                        {
+                        {                            
+                            a.Numero = l.NroAsientos;
+                            l.NroAsientos++;
                             l.Asientos.Add(a);
                         }
 
                         using (StreamWriter sw = new StreamWriter("Diario.txt"))
                         {
-                            sw.WriteLine(a.Numero + " | " + a.Fecha + " |  CODIGO |  DEBE  |  HABER \n");
-                            foreach (Cuenta c in a.CuentasDebe)
-                            {                              
-                                sw.WriteLine("   |                        | " + c.Code + " | " + c.Monto + " | ");
-                            }
-                            foreach (Cuenta c in a.CuentasHaber)
+                            foreach (Asiento asiento in l.Asientos)
                             {
-                                sw.WriteLine("   |                        | " + c.Code + " |   | " + c.Monto);
+
+                                sw.WriteLine(asiento.Numero + " | " + asiento.Fecha + " |  CODIGO |  DEBE  |  HABER \n");
+                                foreach (Cuenta c in asiento.CuentasDebe)
+                                {
+                                    sw.WriteLine("   |                        | " + c.Code + " | " + c.Monto + " | ");
+                                }
+                                foreach (Cuenta c in asiento.CuentasHaber)
+                                {
+                                    sw.WriteLine("   |                        | " + c.Code + " |   | " + c.Monto);
+                                }
                             }
                         }
                         
@@ -162,55 +163,62 @@ namespace A894182.Actividad03
     public static Asiento nuevoAsiento(Libro l, Asiento a)
     {
 
-        Console.WriteLine("A continuación se cargarán las cuentas en el DEBE:\n");
-        Console.WriteLine("Ingrese el código de cuenta:\n");
+        Console.WriteLine("\nIngrese la fecha en formato dd-MM-yyyy :\n");
+        a.Fecha = ValidarFecha(Console.ReadLine());
+
+        Console.WriteLine("\nA continuación se cargarán las cuentas en el DEBE:\n");
+        Console.WriteLine("\nIngrese el código de cuenta:\n");
+
         Cuenta cuenta = ValidarCode(l.Cuentas, Console.ReadLine());
-        Console.WriteLine("Ingrese el monto:\n");
+        Console.WriteLine("\nIngrese el monto:\n");
         int monto = Validar(Console.ReadLine());
         cuenta.Monto = monto;
         a.Debe += monto;
         a.CuentasDebe.Add(cuenta);
-        Console.WriteLine("¿Desea cargar otra cuenta?\n");
+        Console.WriteLine("\n¿Desea cargar otra cuenta al DEBE?\n");
         Console.WriteLine("S -Si\n");
         Console.WriteLine("N -No\n");
         Boolean seguir = ValidarYN(Console.ReadLine());
         while (seguir)
         {
-            Console.WriteLine("Ingrese el código de cuenta:\n");
-            cuenta = ValidarCode(l.Cuentas, Console.ReadLine());
-            a.CuentasDebe.Add(cuenta);
-            Console.WriteLine("Ingrese el monto:\n");
+            Console.WriteLine("\nIngrese el código de cuenta:\n");
+            cuenta = ValidarCode(l.Cuentas, Console.ReadLine());           
+            Console.WriteLine("\nIngrese el monto:\n");
             monto = Validar(Console.ReadLine());
-            a.Debe += monto;
-            Console.WriteLine("¿Desea cargar otra cuenta?\n");
+                cuenta.Monto = monto;
+                a.Debe += monto;
+            a.CuentasDebe.Add(cuenta);
+            Console.WriteLine("\n¿Desea cargar otra cuenta al DEBE?\n");
             Console.WriteLine("S -Si\n");
             Console.WriteLine("N -No\n");
             seguir = ValidarYN(Console.ReadLine());
         }
 
-        Console.WriteLine("A continuación se cargarán las cuentas en el HABER:\n");
-        Console.WriteLine("Ingrese el código de cuenta:\n");
-        cuenta = ValidarCode(l.Cuentas, Console.ReadLine());
-        a.CuentasHaber.Add(cuenta);
-        Console.WriteLine("Ingrese el monto:\n");
+        Console.WriteLine("\nA continuación se cargarán las cuentas en el HABER:\n");
+        Console.WriteLine("\nIngrese el código de cuenta:\n");
+        cuenta = ValidarCode(l.Cuentas, Console.ReadLine());   
+        Console.WriteLine("\nIngrese el monto:\n");
         monto = Validar(Console.ReadLine());
         a.Haber += monto;
-        Console.WriteLine("¿Desea cargar otra cuenta?\n");
+            cuenta.Monto = monto;
+            a.CuentasHaber.Add(cuenta);
+        Console.WriteLine("\n¿Desea cargar otra cuenta al HABER?\n");
         Console.WriteLine("S -Si\n");
         Console.WriteLine("N -No\n");
-        seguir = ValidarYN(Console.ReadLine());
-        while (seguir)
+        Boolean seguir2 = ValidarYN(Console.ReadLine());
+        while (seguir2)
         {
-            Console.WriteLine("Ingrese el código de cuenta:\n");
-            cuenta = ValidarCode(l.Cuentas, Console.ReadLine());
-            a.CuentasHaber.Add(cuenta);
-            Console.WriteLine("Ingrese el monto:\n");
+            Console.WriteLine("\nIngrese el código de cuenta:\n");
+            cuenta = ValidarCode(l.Cuentas, Console.ReadLine());           
+            Console.WriteLine("\nIngrese el monto:\n");
             monto = Validar(Console.ReadLine());
             a.Haber += monto;
-            Console.WriteLine("¿Desea cargar otra cuenta?\n");
+                cuenta.Monto = monto;
+                a.CuentasHaber.Add(cuenta);
+            Console.WriteLine("\n¿Desea cargar otra cuenta al HABER?\n");
             Console.WriteLine("S -Si\n");
             Console.WriteLine("N -No\n");
-            seguir = ValidarYN(Console.ReadLine());
+            seguir2 = ValidarYN(Console.ReadLine());
         }
 
         return a;
