@@ -27,7 +27,7 @@ namespace A894182.Actividad03
                         while (a.Debe != a.Haber)
                         {
                             Console.WriteLine("\n--------------------------------\n");
-                            Console.WriteLine("Error. Las cuentas de Debe y Haber no son equivalentes.\n");
+                            Console.WriteLine("Error. Las cuentas de Debe y Haber no son equivalentes.");
                             Console.WriteLine("\n--------------------------------\n");
                             Console.WriteLine("Intente de nuevo.\n");
                             a.vaciarAsiento();
